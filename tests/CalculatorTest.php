@@ -12,7 +12,10 @@ class CalculatorTest extends TestCase
         $this->assertEquals(3,$result);
     }
 
-    public function testAdditionParameterCheckInteger()
+    /**
+     * @test
+     */
+    public function AdditionParameterCheckInteger()
     {
         $calculator = new Calculator();
         $this->expectException(TypeError::class);
@@ -20,14 +23,22 @@ class CalculatorTest extends TestCase
     }
 
 
-    public function testSubtract()
+    /**
+     * @test
+     * @return void
+     */
+    public function Subtract()
     {
         $calculator = new Calculator();
         $result = $calculator->subtraction(1,2);
         $this->assertEquals(-1,$result);
     }
 
-    public function testArgumentException()
+    /**
+     * @test
+     * @return void
+     */
+    public function ArgumentException()
     {
         $calculator = new Calculator();
         $this->expectException(ArgumentCountError::class);
@@ -44,15 +55,4 @@ class CalculatorTest extends TestCase
         $this->expectException(DivisionByZeroError::class);
         $calculator->division(1,0);
     }
-
-    /**
-     * @test
-     * @return void
-     */
-    public function insert_test()
-    {
-
-    }
-
-
 }   

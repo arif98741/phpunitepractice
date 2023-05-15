@@ -104,26 +104,41 @@ class DatabaseConnectionTest extends \PHPUnit\Framework\TestCase
     public function duplicate_mail_check()
     {
         $connection = new Database($this->config);
-        $statement = $connection->connection->prepare("delete from users");
-        $statement->execute();
-        echo 'hi';
+        $mail = uniqid('', true) . '@gmail.com';
+        $data = [
+            'name' => 'Ariful Islam',
+            'email' => $mail,
+            'password' => 123,
+        ];
+        $connection->insert($data);
+        $this->expectException(mysqli_sql_exception::class);
+        $connection->insert($data);
     }
 
     /**
      * @test
      * @return void
      */
-    public function insert_data()
+    public function insert_data_argument_exception()
     {
         $connection = new Database($this->config);
-        $data = $connection->insert([
-            'name' => 'Ariful Islam',
-            'email' => 'arif@gmail.com',
-            'password' => 123,
-        ]);
-        echo '<pre>';
-        print_r($data);
-        exit;
+        $this->expectException(ArgumentCountError::class);
+        $connection->insert();
+    }
 
+    /**
+     * @test
+     * @return void
+     */
+    public function insert_data_success()
+    {
+        $connection = new Database($this->config);
+        $data = [
+            'name' => 'Ariful Islam',
+            'email' => uniqid('', true).'@insert-data-success.com',
+            'password' => 123,
+        ];
+         $status = $connection->insert($data);
+         self::assertTrue($status);
     }
 }
